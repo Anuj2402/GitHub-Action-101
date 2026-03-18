@@ -1,0 +1,20 @@
+# This is workflow name
+name: Hello workflow 
+
+on:
+  push:
+     branches: [main]
+
+# these are jobs inside workflow 
+jobs:
+ # This is the name of the job 
+   greet:
+      # guthub provide it's own ubuntu 
+      runs-on: ubuntu-latest
+      steps:
+         - name: say hello to user
+           run : echo "hello user"
+
+         - name: say hello to username
+           run : echo "Hello  $USER" 
+           
