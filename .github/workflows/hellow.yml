@@ -20,5 +20,5 @@ jobs:
    Details:
            runs-on: ubuntu-latest
            steps:
-             - name: version of python , docker etc continue-on-error:
-             - run: docker --version && python --version 
+             - name: version of python , docker etc continue-on-error
+               run: docker --version && python --version 
