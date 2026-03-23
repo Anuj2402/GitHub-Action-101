@@ -3,14 +3,16 @@ name: Portfoloi
 on:
   push:
     branches: [main]
+  workflow_dispatch: # This allows you to manually trigger the workflow from the GitHub Actions tab in your repository. It provides flexibility to deploy your portfolio whenever you want, without needing to push changes to the main branch.   
  # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
 permissions:
+    contents: read      # to read the repository content and code
     pages: write      # to deploy to Pages
     id-token: write   # to verify the deployment originates from an appropriate source
 jobs:
     deploy:
         runs-on: ubuntu-latest
-     
+        
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }} # <-- This line uses the output from the deployment step to set the URL of the deployed site in the environment.
