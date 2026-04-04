@@ -12,7 +12,7 @@ jobs:
         strategy:
             fail-fast: false # This option allows the workflow to continue running all jobs in the matrix even if one of them fails. By default, GitHub Actions will stop running the remaining jobs in the matrix if one of them fails. Setting fail-fast to false ensures that all jobs will run regardless of any failures, which can be useful for identifying issues across different configurations.
             matrix:
-                python-version: [3.9, 3.10, 3.11] # This defines a matrix of Python versions to test against. In this case, it specifies that the workflow should run with Python 3.9, 3.10, and 3.11. You can add more versions to the list if you want to test against multiple versions of Python.
+                python-version: ['3.9', '3.10', '3.11'] # This defines a matrix of Python versions to test against. In this case, it specifies that the workflow should run with Python 3.9, 3.10, and 3.11. You can add more versions to the list if you want to test against multiple versions of Python.
         steps:
           - name: checkout code
             uses: actions/checkout@v4
