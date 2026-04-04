@@ -1,0 +1,25 @@
+name: python lint  # This is the name of the workflow. It can be anything you like, but it should be descriptive of what the workflow does. In this case, it indicates that the workflow is for linting Python code.(syntax checking and code style checking)
+
+
+on: 
+   push: 
+        branches: [main]
+
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        steps:
+          - name: checkout code
+            uses: actions/checkout@v4
+        
+          - name: set up python 3.13
+            uses: actions/setup-python@v5
+            with:
+                python-version: "3.13"
+          - name: install dependencies
+            run: 
+                pip install -r requirements.txt
+            
+          - name: run linter
+            run: flake8 app.py # This command runs the flake8 linter on the app.py file. You can adjust this command to target different files or directories as needed.
+
