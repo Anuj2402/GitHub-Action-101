@@ -1,8 +1,6 @@
 name: Portfoloi
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch: # This allows you to manually trigger the workflow from the GitHub Actions tab in your repository. It provides flexibility to deploy your portfolio whenever you want, without needing to push changes to the main branch.   
  # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
 permissions:
@@ -35,4 +33,5 @@ jobs:
                 path: "." # This specifies the path to the static code artifacts that need to be uploaded. In this case, it is set to the current directory (".") which means all files in the repository will be included in the upload. You can adjust this path if your build process generates artifacts in a specific directory.
 
             - name: Deploy to GitHub Pages
+              id: deployment
               uses: actions/deploy-pages@v4 # This action deploys the uploaded static code

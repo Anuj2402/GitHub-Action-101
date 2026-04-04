@@ -4,6 +4,7 @@ name: python lint  # This is the name of the workflow. It can be anything you li
 on: 
    push: 
         branches: [main]
+   workflow_dispatch:
 
 jobs:
     validate:
