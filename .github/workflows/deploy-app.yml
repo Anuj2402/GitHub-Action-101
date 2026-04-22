@@ -1,0 +1,21 @@
+name: Deploy Flask App 
+
+on: 
+    workflow_dispatch:
+
+jobs: 
+    deploy: 
+        env: 
+            DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }} # This line sets an environment variable named DOCKERHUB_USERNAME with the value from the repository variable DOCKERHUB_USERNAME. This allows you to use this variable in your workflow steps, such as when logging into Docker Hub or tagging your Docker images.
+            
+        runs-on: self-hosted 
+    
+        steps: 
+            - name: checkout code 
+              uses: actions/checkout@v4
+            
+            - name: set up Docker compose
+              uses: docker/setup-compose-action@v2 # This action sets up Docker Compose in the workflow environment. It ensures that Docker Compose is available for use in subsequent steps, allowing you to define and run multi-container Docker applications.
+
+            - name: deploy with docker compose 
+              run: docker compose up -d build
