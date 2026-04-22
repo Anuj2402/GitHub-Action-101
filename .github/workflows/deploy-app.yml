@@ -17,5 +17,8 @@ jobs:
             - name: set up Docker compose
               uses: docker/setup-compose-action@v2 # This action sets up Docker Compose in the workflow environment. It ensures that Docker Compose is available for use in subsequent steps, allowing you to define and run multi-container Docker applications.
 
+            - name: Fix Docker permissions
+              run: sudo chmod 666 /var/run/docker.sock
+
             - name: deploy with docker compose 
               run: docker compose up -d --build
