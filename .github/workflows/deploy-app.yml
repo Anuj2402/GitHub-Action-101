@@ -18,4 +18,4 @@ jobs:
               uses: docker/setup-compose-action@v2 # This action sets up Docker Compose in the workflow environment. It ensures that Docker Compose is available for use in subsequent steps, allowing you to define and run multi-container Docker applications.
 
             - name: deploy with docker compose 
-              run: docker compose up -d build
+              run: docker compose up -d --build
