@@ -14,7 +14,7 @@ jobs:
         uses: ./.github/workflows/dependency-scan.yml # This job runs the dependency
 
     docker-scan:
-        uses: ./.github/workflows/image-scan.yml # This job runs the Docker image scan checks defined in the image-scan.yml workflow. It ensures that your Docker images are scanned for vulnerabilities and security issues, helping to maintain a secure containerized environment.
+        uses: ./.github/workflows/docker-lint.yml # This job runs the Docker image scan checks defined in the image-scan.yml workflow. It ensures that your Docker images are scanned for vulnerabilities and security issues, helping to maintain a secure containerized environment.
     
     
         
