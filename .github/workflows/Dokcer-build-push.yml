@@ -2,7 +2,8 @@ name: Docker Build and Push
 
 on:
   push:
-    branches: [main]
+    workflow_dispatch: # This allows you to manually trigger the workflow from the GitHub Actions tab in your repository. It provides flexibility to build and push your Docker image whenever you want, without needing to push changes to the main branch.
+    # branches: [main]
 
 jobs:
   build-and-push:
