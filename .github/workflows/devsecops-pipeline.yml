@@ -4,6 +4,7 @@ on:
     workflow_dispatch: # This allows you to manually trigger the workflow from the GitHub Actions tab in your repository. It provides flexibility to run the entire DevSecOps pipeline whenever you want, without needing to push changes to the main branch or any specific branch.
 
 jobs:
+    #CI ( continuous integration with security)
     code-quality: 
         uses: ./.github/workflows/code-quality.yml # This job runs the code quality checks defined in the code-quality.yml workflow. It ensures that your code adheres to the specified coding standards and best practices, helping to maintain a high level of code quality throughout the development process.
     
@@ -16,5 +17,11 @@ jobs:
     docker-scan:
         uses: ./.github/workflows/Docker-lint.yml # This job runs the Docker image scan checks defined in the image-scan.yml workflow. It ensures that your Docker images are scanned for vulnerabilities and security issues, helping to maintain a secure containerized environment.
     
+    # buld once the security checks are passed
+    build: 
+        needs: [code-quality, security-scan, dependency-scan, docker-scan] # This line specifies that the build job depends on the successful completion of the code-quality, security-scan, dependency-scan, and docker-scan jobs. This means that the build job will only run if all of these preceding jobs have completed successfully, ensuring that the code quality and security checks are passed before proceeding to the build stage.
+        uses: ./.github/workflows/Docker-build-push.yml # This job runs the Docker build and push process defined in the Docker-build-push.yml workflow. It builds your Docker image and pushes it to a container registry, allowing you to deploy your application in a containerized environment.
+        secrets: inherit # This line allows the build job to inherit secrets from the parent workflow. This is useful for securely passing sensitive information, such as API keys or credentials, to the build process without exposing them in the workflow file.
+
     
         
