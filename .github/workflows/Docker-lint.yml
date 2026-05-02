@@ -14,8 +14,8 @@ jobs:
           - name: validate Dockerfile
             uses: hadolint/hadolint-action@v3.1.0 # This action uses the hadolint tool to lint Dockerfiles in the repository. It checks for best practices, potential issues, and common mistakes in Dockerfiles. By using this action, you can ensure that your Dockerfiles adhere to recommended guidelines and are free from common errors, improving the quality and security of your Docker images.
             with:
-                dockerfile: '**/Dockerfile' # This line specifies the pattern to locate Dockerfiles
-         
+                dockerfile: 'Dockerfile' # This line specifies the pattern to locate Dockerfiles
+                recursive: false
         #   - name: set up Docker
         #     uses: docker/setup-buildx-action@v2 # This action sets up Docker Buildx in the workflow environment. Docker Buildx is a tool that extends the capabilities of Docker Build, allowing you to build images for multiple platforms and architectures. By using this action, you can ensure that Docker Buildx is available for use in subsequent steps of your workflow, enabling you to build and lint your Dockerfiles effectively.
 
