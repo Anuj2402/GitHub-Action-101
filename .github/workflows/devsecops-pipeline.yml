@@ -13,7 +13,7 @@ jobs:
     dependency-scan:
         uses: ./.github/workflows/dependency-scan.yml # This job runs the dependency
 
-    docker-scan:
+    docker-build-push:
         uses: ./.github/workflows/Docker-build-push.yml # This job runs the Docker build and push checks defined in the Docker-build-push.yml workflow. It ensures that your Docker images are built correctly and pushed to the specified container registry, allowing you to manage and deploy your containerized applications effectively.
     
     
