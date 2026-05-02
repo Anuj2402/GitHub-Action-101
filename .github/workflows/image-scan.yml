@@ -26,7 +26,9 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
             
             - name: Install Trivy Scanner
-              uses: aquasecurity/trivy-action@v0.33.1 # This action installs the Trivy vulnerability scanner in the workflow environment. Trivy is a tool that scans Docker images for known vulnerabilities and security issues. By using this action, you can ensure that Trivy is available for use in subsequent steps of your workflow, allowing you to perform image scans effectively.
+              uses: aquasecurity/trivy-action@v0.35.0 # This action installs the Trivy vulnerability scanner in the workflow environment. Trivy is a tool that scans Docker images for known vulnerabilities and security issues. By using this action, you can ensure that Trivy is available for use in subsequent steps of your workflow, allowing you to perform image scans effectively.
               with:
-               severity: 'CRITICAL'
+               image-ref: ${{ vars.DOCKERHUB_USERNAME }}/github-actions-demo:latest # This line specifies the Docker image reference that Trivy will scan for vulnerabilities. It uses the value of the DOCKERHUB_USERNAME variable to construct the full image name, which is expected to be in the format of username/repository:tag. By providing this reference, you are instructing Trivy to analyze the specified Docker image for any known vulnerabilities and security issues. 
+               severity: 'CRITICAL , HIGH' # This line sets the severity level for the vulnerabilities that Trivy will report. By specifying 'CRITICAL , HIGH', you are instructing Trivy to only report vulnerabilities that are classified as either CRITICAL or HIGH severity. This allows you to focus on the most severe vulnerabilities in your Docker image and prioritize their remediation.
                exit-code: '1'
+               trivyignore: ${{github.workspace}}/.trivyignore # This line specifies the path to the .trivyignore file, which is used to exclude certain vulnerabilities from being reported by Trivy. The .trivyignore file contains a list of vulnerability IDs that you want to ignore during the scan. By providing this path, you can ensure that any vulnerabilities listed in the .trivyignore file will not cause the workflow to fail, allowing you to focus on addressing the remaining vulnerabilities that are not ignored.

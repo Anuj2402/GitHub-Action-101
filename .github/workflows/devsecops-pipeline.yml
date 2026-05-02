@@ -26,5 +26,6 @@ jobs:
     trivy:
         needs: build # This line specifies that the trivy job depends on the successful completion of the build job. This means that the trivy job will only run if the build job has completed successfully, ensuring that the Docker image is built before it is scanned for vulnerabilities using Trivy.
         uses: ./.github/workflows/image-scan.yml # This job runs the image scanning process defined in the image-scan.yml workflow. It uses Trivy to scan your Docker images for vulnerabilities and security issues, helping to maintain a secure containerized environment.
-    
+        secrets: inherit # This line allows the trivy job to inherit secrets from the parent workflow. This is useful for securely passing sensitive information, such as API keys or credentials, to the image scanning process without exposing them in the workflow file.
+        
         
