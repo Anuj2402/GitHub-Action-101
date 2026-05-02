@@ -2,7 +2,7 @@
 name: Docker Lint
 
 on:
-    worldflow_call:
+    workflow_call:
     
 jobs:
     validate-dockerfiles:

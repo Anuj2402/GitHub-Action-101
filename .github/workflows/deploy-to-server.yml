@@ -1,0 +1,25 @@
+name: Deploy to Server # This will deploy the Flask application to a server using Docker Compose. It is triggered manually through the GitHub Actions interface, allowing you to deploy your application whenever needed without relying on code pushes.
+
+on:
+    workflow_call:
+
+jobs:
+    deploy:
+        runs-on: unbuntu-latest
+        steps:
+            # - name: Copy Docker compose file
+            #   uses: appleboy/scp-action@v1 # This step copies the Docker Compose file from the .github/workflows directory to the root of the repository. This is necessary because the subsequent steps will use this Docker Compose file to deploy the application on the server. By copying it to the root, it ensures that the file is in the correct location for the deployment process.
+           
+            - name: SSH to prod server 
+              uses: appleboy/ssh-action@master # This action allows you to execute SSH commands on a remote server. It is used in this workflow to connect to the production server and run the necessary commands to deploy the Flask application using Docker Compose. By using this action, you can automate the deployment process and ensure that your application is up and running on the server with minimal manual intervention.
+              with: 
+                host: ${{ secrets.EC2_SSH_HOST }} # This line specifies the hostname or IP address of the production server where the Flask application will be deployed. The value is retrieved from the repository secrets, ensuring that sensitive information is not exposed in the workflow file.
+                username: ${{ secrets.EC2_SSH_USER }} # This line specifies the username for SSH authentication when connecting to the production server. The value is retrieved from the repository secrets, ensuring that sensitive information is not exposed in the workflow file.
+                key: ${{ secrets.EC2_SSH_KEY }} # This line specifies the SSH private key used for authentication when connecting to the production server. The value is retrieved from the repository secrets, ensuring that sensitive information is not exposed in the workflow file.
+                script: |
+                  echo "Deploying Flask application to production server..."
+                  docker compose up -d --build
+                  mkdir devops 
+                #   cd /path/to/your/app
+                 
+
