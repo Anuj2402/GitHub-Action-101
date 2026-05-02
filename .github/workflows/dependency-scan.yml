@@ -1,0 +1,24 @@
+# This workflow is designed to perform a dependency scan on a project using the OWASP Dependency-Check tool. It is triggered on every push to the repository and can also be manually triggered using workflow_dispatch. The workflow runs on an Ubuntu environment and consists of steps to check out the code, set up Java, install the OWASP Dependency-Check tool, and run the dependency scan to identify any known vulnerabilities in the project's dependencies.
+# pip-audit -> pip-audit is a tool used to scan Python project dependencies for known vulnerabilities. It checks the installed packages against a database of known security issues and provides a report of any vulnerabilities found. This helps developers identify and address security risks in their Python projects by ensuring that they are using secure versions of their dependencies.
+name: Dependency Scan 
+
+on:
+    workflow_call:
+
+jobs:
+    dependency-check:
+        runs-on: ubuntu-latest
+        steps: 
+            - name: checkout code
+              uses: actions/checkout@v4
+
+            - name: set up python 3.12
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.12' # This line specifies that Python 3.12 should be set up for the workflow. The actions/setup-python@v5 action will install and configure Python 3.12 in the workflow environment, allowing subsequent steps to use this version of Python for tasks such as installing dependencies and running the pip-audit tool.
+
+            - name: install pip-audit
+              run: pip install pip-audit
+               
+            - name: run dependency scan
+              run: pip-audit -r requirements.txt # This command runs the pip-audit tool to scan the dependencies listed in the requirements.txt file for known vulnerabilities. The -r flag specifies the requirements file to use for the scan. The tool will check each dependency against a database of known security issues and provide a report of any vulnerabilities found, allowing developers to address them before they can be exploited in production.
