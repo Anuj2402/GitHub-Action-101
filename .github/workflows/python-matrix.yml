@@ -4,7 +4,7 @@ name: python lint  # This is the name of the workflow. It can be anything you li
 on: 
    push: 
         # branches: [main] This specifies that the workflow should be triggered whenever there is a push event to the repository. You can specify particular branches to trigger the workflow, but in this case, it is commented out, which means the workflow will run on pushes to any branch.
-   workflow_dispatch:
+  #  workflow_dispatch:
 
 jobs:
     validate:
