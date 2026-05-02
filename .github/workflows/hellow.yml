@@ -1,23 +1,23 @@
-# This is workflow name
-name: Hello workflow 
+# # This is workflow name
+# name: Hello workflow 
 
-on:
-  workflow_dispatch: 
+# on:
+#   workflow_dispatch: 
 
-# these are jobs inside workflow 
-jobs:
- # This is the name of the job 
-   greet:
-      # guthub provide it's own ubuntu 
-      runs-on: ubuntu-latest
-      steps:
-         - name: say hello to user
-           run : echo "hello user"
+# # these are jobs inside workflow 
+# jobs:
+#  # This is the name of the job 
+#    greet:
+#       # guthub provide it's own ubuntu 
+#       runs-on: ubuntu-latest
+#       steps:
+#          - name: say hello to user
+#            run : echo "hello user"
 
-         - name: say hello to username
-           run : echo "Hello  $USER" 
-   Details:
-           runs-on: ubuntu-latest
-           steps:
-             - name: version of python , docker etc continue-on-error
-               run: docker --version && python --version 
+#          - name: say hello to username
+#            run : echo "Hello  $USER" 
+#    Details:
+#            runs-on: ubuntu-latest
+#            steps:
+#              - name: version of python , docker etc continue-on-error
+#                run: docker --version && python --version 

@@ -22,6 +22,9 @@ jobs:
         needs: [code-quality, security-scan, dependency-scan, docker-scan] # This line specifies that the build job depends on the successful completion of the code-quality, security-scan, dependency-scan, and docker-scan jobs. This means that the build job will only run if all of these preceding jobs have completed successfully, ensuring that the code quality and security checks are passed before proceeding to the build stage.
         uses: ./.github/workflows/Docker-build-push.yml # This job runs the Docker build and push process defined in the Docker-build-push.yml workflow. It builds your Docker image and pushes it to a container registry, allowing you to deploy your application in a containerized environment.
         secrets: inherit # This line allows the build job to inherit secrets from the parent workflow. This is useful for securely passing sensitive information, such as API keys or credentials, to the build process without exposing them in the workflow file.
-
+    
+    trivy:
+        needs: build # This line specifies that the trivy job depends on the successful completion of the build job. This means that the trivy job will only run if the build job has completed successfully, ensuring that the Docker image is built before it is scanned for vulnerabilities using Trivy.
+        uses: ./.github/workflows/image-scan.yml # This job runs the image scanning process defined in the image-scan.yml workflow. It uses Trivy to scan your Docker images for vulnerabilities and security issues, helping to maintain a secure containerized environment.
     
         
