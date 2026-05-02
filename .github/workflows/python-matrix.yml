@@ -3,8 +3,9 @@ name: python lint  # This is the name of the workflow. It can be anything you li
 
 on: 
    push: 
-        # branches: [main] This specifies that the workflow should be triggered whenever there is a push event to the repository. You can specify particular branches to trigger the workflow, but in this case, it is commented out, which means the workflow will run on pushes to any branch.
-  #  workflow_dispatch:
+     # branches: [main] This specifies that the workflow should be triggered whenever there is a push event to the repository. You can specify particular branches to trigger the workflow, but in this case, it is commented out, which means the workflow will run on pushes to any branch.
+   workflow_dispatch: # This allows the workflow to be manually triggered from the GitHub Actions tab in the repository. It provides a button that users can click to run the workflow on demand, in addition to it being triggered automatically on pushes to the repository. This is useful for testing or running the workflow without needing to make a code change that triggers a push event.
+  
 
 jobs:
     validate:
