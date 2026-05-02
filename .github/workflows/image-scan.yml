@@ -4,33 +4,42 @@
 name: Image Scan
 
 on:
-    workflow_call:
+  workflow_call:
 
 jobs:
-    image-scan:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  image-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Validate Dockerfile
-              continue-on-error: true
-              run: |
-                if [ -f "Dockerfile" ]; then
-                  echo "Dockerfile found, validating..."
-                  docker run --rm -i hadolint/hadolint < Dockerfile
-                else
-                  echo "Dockerfile not found in root directory"
-                fi
+      - name: Validate Dockerfile (Hadolint)
+        continue-on-error: true
+        run: |
+          if [ -f "Dockerfile" ]; then
+            docker run --rm -i hadolint/hadolint < Dockerfile
+          else
+            echo "Dockerfile not found" && exit 1
+          fi
 
-            - name: Login to Docker Hub
-              uses: docker/login-action@v3
-              with:
-                username: ${{ vars.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_TOKEN }}
-            
-            - name: Install Trivy Scanner
-              uses: aquasecurity/trivy-action@v0.33.1 # This action installs the Trivy vulnerability scanner in the workflow environment. Trivy is a tool that scans Docker images for known vulnerabilities and security issues. By using this action, you can ensure that Trivy is available for use in subsequent steps of your workflow, allowing you to perform image scans effectively.
-              with:
-               severity: 'CRITICAL'
-               exit-code: '1'
+      - name: Build local image for scanning
+        # We build the image locally first so Trivy can scan the layers
+        run: |
+          docker build -t my-app-image:${{ github.sha }} .
+
+      - name: Run Trivy Scanner
+        uses: aquasecurity/trivy-action@v0.36.0 # Updated to a safe version
+        with:
+          scan-type: 'image'
+          image-ref: 'my-app-image:${{ github.sha }}'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1' # This will fail the pipeline if vulnerabilities are found
+          format: 'table'
+
+      - name: Login to Docker Hub
+        # Only login and push IF the scan passed
+        if: success()
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
