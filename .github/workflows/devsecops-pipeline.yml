@@ -1,0 +1,20 @@
+name: Devsecops Pipeline End to End
+
+on: 
+    workflow_dispatch: # This allows you to manually trigger the workflow from the GitHub Actions tab in your repository. It provides flexibility to run the entire DevSecOps pipeline whenever you want, without needing to push changes to the main branch or any specific branch.
+
+jobs:
+    code-quality: 
+        uses: ./.github/workflows/code-quality.yml # This job runs the code quality checks defined in the code-quality.yml workflow. It ensures that your code adheres to the specified coding standards and best practices, helping to maintain a high level of code quality throughout the development process.
+    
+    security-scan:
+        uses: ./.github/workflows/security-scan.yml # This job runs the security scanning checks defined in the security-scan.yml workflow. It helps to identify and address potential security vulnerabilities in your code, ensuring that your application is secure and protected against common threats.
+    
+    dependency-scan:
+        uses: ./.github/workflows/dependency-scan.yml # This job runs the dependency
+
+    docker-scan:
+        uses: ./.github/workflows/Docker-build-push.yml # This job runs the Docker build and push checks defined in the Docker-build-push.yml workflow. It ensures that your Docker images are built correctly and pushed to the specified container registry, allowing you to manage and deploy your containerized applications effectively.
+    
+    
+        
