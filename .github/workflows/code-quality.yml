@@ -1,0 +1,33 @@
+#Linting and SAST scan are two important steps in the software development process that help ensure code quality and security. Linting is the process of analyzing code for potential errors, stylistic issues, and adherence to coding standards. It helps developers identify and fix issues early in the development cycle, improving code readability and maintainability. SAST (Static Application Security Testing) scan, on the other hand, is a security-focused analysis that examines source code for vulnerabilities and weaknesses that could be exploited by attackers. It helps identify security flaws such as SQL injection, cross-site scripting (XSS), and other common vulnerabilities, allowing developers to address them before they can be exploited in production. Both linting and SAST scans are crucial for maintaining high-quality and secure codebases.
+# lint -> flake8  & SAST -> Bandit
+# workflow_call -> This is a special event that allows one workflow to call another workflow. It is used to create reusable workflows that can be shared across multiple repositories or within the same repository. When a workflow is triggered by workflow_call, it can be called from another workflow using the uses keyword, allowing you to modularize your CI/CD pipelines and promote code reuse.
+name: code quality validation # This workflow is designed to validate the code quality of a Python project using the flake8 linter. It is triggered on every push to the repository and can also be manually triggered using workflow_dispatch. The workflow runs on an Ubuntu environment and consists of steps to check out the code, set up Python, install dependencies, and run the flake8 linter to ensure that the code adheres to specified style guidelines and is free of common errors.
+
+on:
+    workflow_call:
+
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false # This option allows the workflow to continue running all jobs in the matrix even if one of them fails. By default, GitHub Actions will stop running the remaining jobs in the matrix if one of them fails. Setting fail-fast to false ensures that all jobs will run regardless of any failures, which can be useful for identifying issues across different configurations.
+            matrix:
+                python-version: ['3.9', '3.10', '3.11'] # This defines a matrix of Python versions to test against. In this case, it specifies that the workflow should run with Python 3.9, 3.10, and 3.11. You can add more versions to the list if you want to test against multiple versions of Python.
+        steps:
+          - name: checkout code
+            uses: actions/checkout@v4
+        
+          - name: set up python ${{ matrix.python-version }} # This step sets up the specified version of Python for the workflow. The ${{ matrix.python-version }} syntax allows the workflow to use the current value of python-version from the matrix, which means that this step will be executed for each version of Python defined in the matrix.
+            uses: actions/setup-python@v5
+            with:
+                python-version: ${{ matrix.python-version }}
+          - name: install dependencies
+            run: 
+                pip install -r requirements.txt
+            
+          - name: run linter
+            run: flake8 app.py # This command runs the flake8 linter on the app.py file. You can adjust this command to target different files or directories as needed.
+
+          - name: run SAST scan
+            run: bandit -r app.py # This command runs the Bandit SAST scanner on the entire codebase (indicated by the dot). It will analyze the code for security vulnerabilities and report any issues it finds. You can adjust this command to target specific files or directories if needed.
+
